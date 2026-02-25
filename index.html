@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandir Emporium</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+const DEFAULT_CONTENT = {
+  brandName: "Mandir Emporium",
+  logoImage: "",
+  tagline: "Divine Craftsmanship. Timeless Elegance.",
+  subTagline: "India's Premier Destination for Sacred Mandirs & Pooja Room Interiors",
+  heroBtnLabel: "Explore Collections",
+  phone: "+91 98765 43210",
+  whatsapp: "919876543210",
+  email: "info@mandiremporium.com",
+  address: "123, Sacred Street, New Delhi – 110001",
+  instagram: "https://instagram.com/mandiremporium",
+  facebook: "https://facebook.com/mandiremporium",
+  youtube: "https://youtube.com/@mandiremporium",
+  pinterest: "https://pinterest.com/mandiremporium",
+  favicon: "",
+  footerText: "A Unit of The Deco Furns. All Rights Reserved.",
+  navItems: [
+    { key:"home", label:"Home" },
+    { key:"collections", label:"Collections" },
+    { key:"pooja", label:"Pooja Rooms" },
+    { key:"projects", label:"Projects" },
+    { key:"about", label:"About Us" },
+    { key:"contact", label:"Contact" },
+  ],
+  heroImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1800&q=80",
+  aboutTitle: "Crafting Divinity Since 1954",
+  aboutSubtitle: "Our Legacy",
+  aboutText: "At Mandir Emporium, we merge centuries-old sacred craftsmanship with contemporary luxury design. Every mandir we create is a masterpiece — a personal sanctuary where devotion meets unparalleled artistry.",
+  aboutImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80",
+  aboutStoryTitle: "Our Story",
+  aboutStoryText: "Founded in 1954 by a family of master craftsmen in New Delhi, Mandir Emporium began as a small workshop dedicated to creating sacred spaces of unrivalled beauty. Over seven decades, we have grown into India's most trusted name in luxury mandir craftsmanship — serving thousands of families, temples, and institutions across the country. Our journey is rooted in devotion: devotion to craft, to quality, and to the sacred traditions of India.",
+  aboutStoryImage: "https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=900&q=80",
+  aboutMission: "To craft sacred spaces of extraordinary beauty that inspire devotion and stand as timeless heirlooms for generations.",
+  aboutVision: "To be the most trusted and admired name in sacred interior design across India and beyond.",
+  aboutGallery: [
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80",
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80",
+    "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=80",
+  ],
+  products: [
+    { id:1, name:"Corian Marble Mandir", subtitle:"Pure Elegance in White", desc:"Crafted from premium Corian — a seamless, non-porous engineered stone. Our Corian Mandirs feature flawless surfaces, intricate laser-cut latticework, and a pristine luminosity that transforms every prayer space into a sacred sanctuary.", image:"https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80", tag:"Best Seller" },
+    { id:2, name:"Vietnam Marble Mandir", subtitle:"Exotic Stone. Divine Form.", desc:"Sourced exclusively from the quarries of Vietnam, this ultra-premium marble bears unique veining and a luminous depth unmatched by any other stone. Each mandir is a one-of-a-kind work of art.", image:"https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=80", tag:"Signature" },
+    { id:3, name:"Sagwan Wood Mandir", subtitle:"Timeless Teak. Sacred Heritage.", desc:"Hand-carved from the finest Sagwan (Teak) wood, these mandirs embody India's royal woodworking heritage. Rich mahogany tones, intricate carvings, and a warm grandeur that fills your home with divine energy.", image:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80", tag:"Heritage" },
+    { id:4, name:"HDF Board Mandir", subtitle:"Modern Precision. Sacred Beauty.", desc:"Engineered with High Density Fibreboard and premium laminates, our HDF Mandirs offer contemporary silhouettes with precision-cut detailing. Ideal for modern homes seeking sacred elegance without compromise.", image:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80", tag:"Modern" },
+  ],
+  poojaTitle: "Complete Pooja Room Setup",
+  poojaSubtitle: "We design and install your complete sacred space — from concept to consecration.",
+  poojaText: "Our interior pooja room design service transforms an ordinary space into a divine retreat. We handle everything: architecture, mandir installation, lighting, storage, flooring, and decor.",
+  poojaFeatures: ["Custom Architectural Design","Premium Material Selection","Mandir Installation","Divine Lighting Setup","Sanctified Storage Solutions","Complete Turnkey Delivery"],
+  poojaImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80",
+  projectsTitle: "Our Signature Projects",
+  projectsSubtitle: "A glimpse into the sacred spaces we have brought to life across India.",
+  projects: [
+    { id:1, title:"Grand Marble Pooja Hall", category:"Vietnam Marble", location:"Delhi", year:"2023", description:"A breathtaking full-room pooja hall featuring hand-selected Vietnam marble with rare gold veining. This 400 sq ft sacred space includes custom lighting, marble flooring, and a triple-arch mandir as the centrepiece.", images:["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80","https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=900&q=80"] },
+    { id:2, title:"Royal Teak Mandir", category:"Sagwan Wood", location:"Mumbai", year:"2023", description:"A majestic Sagwan teak mandir commissioned for a sprawling villa in Juhu. Featuring 200-year-old teak, hand-carved by master craftsmen over three months, with gold leaf detailing and silk drapery.", images:["https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=900&q=80","https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80"] },
+    { id:3, title:"Corian Luxury Shrine", category:"Corian Marble", location:"Bangalore", year:"2022", description:"A contemporary Corian mandir designed for a modern penthouse. Pure white DuPont Corian with robotic precision-cut jali work, integrated LED lighting, and seamless storage panels.", images:["https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80","https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80"] },
+    { id:4, title:"Modern HDF Pooja Room", category:"HDF Board", location:"Hyderabad", year:"2022", description:"A sleek and modern pooja alcove designed for a compact apartment. HDF panels with high-gloss laminate finish, concealed lighting, and foldable doors that close the sacred space when not in use.", images:["https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=900&q=80","https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80"] },
+    { id:5, title:"Heritage Teak Temple", category:"Sagwan Wood", location:"Jaipur", year:"2021", description:"A palatial home temple inspired by Rajasthani architecture. This 600 sq ft sacred hall features towering teak arches, hand-painted murals, Italian marble flooring, and an antique brass bell canopy.", images:["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=80","https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=900&q=80"] },
+    { id:6, title:"Marble Pooja Suite", category:"Vietnam Marble", location:"Ahmedabad", year:"2021", description:"A luxurious dedicated pooja suite spanning an entire room, featuring book-matched Vietnam marble panels, a custom 7-foot mandir, and a meditation alcove. Designed and installed in 45 days.", images:["https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80","https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=900&q=80"] },
+  ],
+  whyTitle: "Why Mandir Emporium?",
+  whyPoints: [
+    { icon:"✦", title:"70+ Years of Heritage", desc:"Seven decades of crafting sacred spaces for discerning families across India." },
+    { icon:"✦", title:"Master Artisans", desc:"100+ skilled craftsmen dedicated to divine perfection in every piece." },
+    { icon:"✦", title:"Premium Materials Only", desc:"We source only the finest marble, wood, and engineered materials worldwide." },
+    { icon:"✦", title:"Turnkey Delivery", desc:"From design to installation — completely managed by our expert team." },
+    { icon:"✦", title:"Pan-India Service", desc:"We deliver and install across all major Indian cities and beyond." },
+    { icon:"✦", title:"Custom Design Studio", desc:"Every piece is uniquely designed for your space and personal vision." },
+  ],
+};
+
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body, #root { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; background: #fff; color: #0a0a0a; overflow-x: hidden; min-height: 100vh; }
+  :root {
+    --black: #0a0a0a; --white: #ffffff;
+    --gold: #C9A84C; --gold-light: #E8D5A3; --gold-dark: #9A6F2F;
+    --grey: #f5f5f5; --grey2: #e8e8e8; --text-muted: #666;
+    --nav-h: 72px;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  }
+  .serif { font-family: var(--font-serif); }
+
+  /* ── NAVBAR ─────────────────────────────────────────────────────────────── */
+  /* Three-column layout: [hamburger | logo (center) | nav-links] on ALL widths */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+    height: var(--nav-h);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 clamp(1rem, 4vw, 4rem);
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    transition: box-shadow 0.3s;
+  }
+  .navbar.scrolled { box-shadow: 0 2px 30px rgba(0,0,0,0.07); }
+
+  /* Left slot: hamburger */
+  .nav-left { display: flex; align-items: center; }
+
+  /* Center slot: brand */
+  .nav-center { display: flex; justify-content: center; }
+  .nav-brand { display: flex; flex-direction: column; align-items: center; line-height: 1; text-decoration: none; color: var(--black); }
+  .nav-brand-logo { height: 44px; width: auto; max-width: 180px; object-fit: contain; }
+  .nav-brand-name { font-family: var(--font-serif); font-size: clamp(1.05rem, 2.2vw, 1.45rem); font-weight: 600; letter-spacing: 0.03em; white-space: nowrap; }
+  .nav-brand-sub { font-size: clamp(0.42rem, 0.9vw, 0.52rem); letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-top: 3px; white-space: nowrap; }
+
+  /* Right slot: desktop nav links */
+  .nav-right { display: flex; align-items: center; justify-content: flex-end; }
+  .nav-desktop { display: flex; align-items: center; gap: clamp(1rem, 2vw, 2.2rem); }
+  .nav-desktop a { text-decoration: none; color: var(--black); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; position: relative; transition: color 0.2s; white-space: nowrap; }
+  .nav-desktop a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; transform-origin:left; }
+  .nav-desktop a:hover, .nav-desktop a.active { color: var(--gold); }
+  .nav-desktop a.active::after, .nav-desktop a:hover::after { transform: scaleX(1); }
+  .nav-cta-btn { background: var(--black) !important; color: white !important; padding: 0.55rem 1.3rem !important; font-size: 0.62rem !important; white-space: nowrap; }
+  .nav-cta-btn::after { display:none !important; }
+  .nav-cta-btn:hover { background: var(--gold) !important; }
+
+  /* HAMBURGER — always visible on the left */
+  .nav-hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px; z-index: 1001; flex-shrink: 0; }
+  .nav-hamburger span { display: block; height: 2px; background: var(--black); border-radius: 2px; transition: all 0.3s; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* MOBILE SIDEBAR */
+  .sidebar-overlay { display: none; position: fixed; inset: 0; z-index: 800; background: rgba(0,0,0,0.55); backdrop-filter: blur(3px); animation: fadeIn 0.2s ease; }
+  .sidebar-overlay.open { display: block; }
+  .sidebar { position: fixed; top: 0; left: 0; bottom: 0; z-index: 850; width: min(80vw, 300px); background: white; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(.25,.46,.45,.94); box-shadow: 4px 0 40px rgba(0,0,0,0.15); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem; border-bottom: 1px solid var(--grey2); background: var(--black); }
+  .sidebar-brand { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; color: white; }
+  .sidebar-brand-sub { font-size: 0.48rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-top: 2px; }
+  .sidebar-close { width: 32px; height: 32px; background: rgba(255,255,255,0.1); border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; }
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.75rem; }
+  .sidebar-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; text-decoration: none; color: var(--black); font-size: 0.82rem; letter-spacing: 0.06em; font-weight: 500; border-radius: 8px; transition: background 0.15s, color 0.15s; margin-bottom: 0.2rem; }
+  .sidebar-nav a:hover, .sidebar-nav a.active { background: #fdf8f0; color: var(--gold-dark); }
+  .sidebar-nav a.active { font-weight: 600; }
+  .sidebar-nav-icon { width: 18px; height: 18px; opacity: 0.6; flex-shrink: 0; }
+  .sidebar-divider { height: 1px; background: var(--grey2); margin: 0.5rem 0.75rem; }
+  .sidebar-footer { padding: 1rem 1.2rem; border-top: 1px solid var(--grey2); }
+  .sidebar-contact-btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem; background: var(--gold); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; text-decoration: none; }
+  .sidebar-whatsapp { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.75rem; background: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; text-decoration: none; margin-top: 0.5rem; }
+
+  /* On small screens hide desktop nav links (sidebar takes over) */
+  @media (max-width: 767px) {
+    .nav-desktop { display: none; }
+    .nav-brand-logo { height: 36px; }
+    .nav-brand-name { font-size: 1rem; }
+    .nav-brand-sub { display: none; }
+  }
+
+  .page { padding-top: var(--nav-h); min-height: 100vh; }
+  .page-hero { height: clamp(200px, 35vw, 380px); position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.4); }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.7) 100%); }
+  .page-hero-content { position: relative; padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 5vw, 4rem); color: white; }
+  .page-hero-label { font-size: 0.58rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.6rem; }
+  .page-hero-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 300; line-height: 1.15; }
+  .page-hero-title em { font-style: italic; color: var(--gold-light); }
+
+  /* HERO */
+  .hero { height: 100svh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.42); transform: scale(1.04); transition: transform 8s ease; }
+  .hero-bg.loaded { transform: scale(1); }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 100%); }
+  .hero-content { position: relative; text-align: center; color: white; padding: 0 clamp(1rem, 5vw, 3rem); max-width: 900px; animation: fadeInUp 1.2s ease both; }
+  .hero-eyebrow { font-size: clamp(0.52rem, 1.5vw, 0.65rem); letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1.2rem; }
+  .hero-title { font-family: var(--font-serif); font-size: clamp(2rem, 7vw, 5.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.2rem; }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: clamp(0.62rem, 1.8vw, 0.8rem); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; margin-bottom: 2.5rem; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-gold { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: white; padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.4rem, 4vw, 2.2rem); font-size: clamp(0.58rem, 1.4vw, 0.68rem); letter-spacing: 0.18em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.3s; text-decoration: none; font-weight: 500; }
+  .btn-gold:hover { background: #b8922e; }
+  .btn-outline-white { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: white; padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.4rem, 4vw, 2.2rem); font-size: clamp(0.58rem, 1.4vw, 0.68rem); letter-spacing: 0.18em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s; text-decoration: none; }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.1); }
+  .hero-scroll { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.4rem; color: rgba(255,255,255,0.5); font-size: 0.52rem; letter-spacing: 0.3em; text-transform: uppercase; animation: bounce 2s ease infinite; }
+  .hero-scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.45)); }
+
+  /* SECTIONS */
+  section { padding: clamp(3.5rem, 8vw, 7rem) 0; }
+  .container { max-width: 1300px; margin: 0 auto; padding: 0 clamp(1rem, 5vw, 4rem); }
+  .section-label { font-size: clamp(0.5rem, 1.2vw, 0.6rem); letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.2; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; }
+  .section-divider { width: 50px; height: 1px; background: var(--gold); margin: 1.2rem 0; }
+  .section-sub { font-size: clamp(0.78rem, 1.8vw, 0.85rem); color: var(--text-muted); line-height: 1.8; max-width: 600px; font-weight: 300; }
+  .center-header { text-align: center; }
+  .center-header .section-divider { margin: 1.2rem auto; }
+  .center-header .section-sub { margin: 0 auto; }
+
+  /* HERITAGE STRIP */
+  .heritage-strip { background: var(--black); color: white; padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 5vw, 4rem); display: flex; align-items: center; justify-content: center; gap: clamp(1rem, 3vw, 2.5rem); flex-wrap: wrap; border-bottom: 1px solid rgba(201,168,76,0.25); }
+  .hs-divider { width: 1px; height: 28px; background: rgba(201,168,76,0.25); }
+  .hs-item { display: flex; flex-direction: column; align-items: center; }
+  .hs-label { font-size: 0.5rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.2rem; }
+  .hs-value { font-family: var(--font-serif); font-size: clamp(0.9rem, 2.5vw, 1.1rem); font-weight: 300; }
+  .hs-tagline { font-size: clamp(0.65rem, 1.5vw, 0.72rem); color: rgba(255,255,255,0.6); letter-spacing: 0.06em; max-width: 520px; line-height: 1.65; text-align: center; }
+  .hs-tagline em { color: var(--gold-light); font-style: italic; font-family: var(--font-serif); font-size: 1.1em; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .about-img-wrap { position: relative; aspect-ratio: 3/4; overflow: hidden; }
+  .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+  .about-img-wrap:hover img { transform: scale(1.04); }
+  .about-img-accent { position: absolute; bottom: -16px; right: -16px; width: 100px; height: 100px; border: 1px solid var(--gold); z-index: -1; }
+  .about-img-label { position: absolute; bottom: 1.2rem; left: 1.2rem; background: var(--black); color: white; padding: 0.6rem 1rem; font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; }
+  .stats-row { display: flex; gap: clamp(1.5rem, 4vw, 3rem); margin-top: 2.5rem; border-top: 1px solid var(--grey2); padding-top: 2rem; flex-wrap: wrap; }
+  .stat-num { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 300; color: var(--gold); line-height: 1; }
+  .stat-label { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem; }
+
+  /* ABOUT PAGE EXTRAS */
+  .about-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; margin-top: 5rem; }
+  .about-story-img { border-radius: 2px; overflow: hidden; aspect-ratio: 4/3; }
+  .about-story-img img { width: 100%; height: 100%; object-fit: cover; }
+  .about-mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 4rem; }
+  .about-mv-card { background: var(--grey); padding: clamp(1.5rem, 3vw, 2.5rem); border-left: 3px solid var(--gold); }
+  .about-mv-label { font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .about-mv-text { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300; line-height: 1.7; color: var(--black); font-style: italic; }
+  .about-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+  .about-gallery-img { aspect-ratio: 1; overflow: hidden; border-radius: 2px; }
+  .about-gallery-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .about-gallery-img:hover img { transform: scale(1.06); }
+
+  /* PRODUCTS */
+  .products-bg { background: var(--grey); }
+  .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 3rem; }
+  .product-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: var(--grey2); }
+  .product-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s, filter 0.5s; filter: brightness(0.72); }
+  .product-card:hover img { transform: scale(1.06); filter: brightness(0.45); }
+  .product-badge { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: white; font-size: 0.52rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 0.28rem 0.7rem; }
+  .product-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 100%); color: white; transform: translateY(55px); transition: transform 0.4s; }
+  .product-card:hover .product-info { transform: translateY(0); }
+  .product-sub { font-size: 0.55rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.4rem; }
+  .product-name { font-family: var(--font-serif); font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 300; margin-bottom: 0.6rem; }
+  .product-desc { font-size: 0.72rem; line-height: 1.7; opacity: 0.85; }
+  .product-cta { margin-top: 0.8rem; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light); }
+
+  /* POOJA */
+  .pooja-split { display: grid; grid-template-columns: 1fr 1fr; }
+  .pooja-img { position: relative; overflow: hidden; min-height: clamp(300px, 50vw, 600px); }
+  .pooja-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pooja-content { background: var(--black); color: white; padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem); display: flex; flex-direction: column; justify-content: center; }
+  .pooja-content .section-label { color: var(--gold-light); }
+  .pooja-content .section-title { color: white; }
+  .pooja-content .section-sub { color: rgba(255,255,255,0.65); max-width: 100%; }
+  .pooja-features { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.8rem 0; }
+  .pooja-feat { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.72rem; color: rgba(255,255,255,0.8); }
+  .pooja-feat-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; margin-top: 0.3rem; flex-shrink: 0; }
+
+  /* PROJECTS GRID */
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.75rem, 2vw, 1.5rem); margin-top: 3rem; }
+  .project-card { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: var(--grey2); border-radius: 2px; }
+  .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; filter: brightness(0.82); }
+  .project-card:hover img { transform: scale(1.07); filter: brightness(0.5); }
+  .project-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.2rem; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); color: white; }
+  .project-cat { font-size: 0.52rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.3rem; }
+  .project-name { font-family: var(--font-serif); font-size: clamp(0.9rem, 2vw, 1.2rem); font-weight: 300; }
+  .project-location { font-size: 0.58rem; color: rgba(255,255,255,0.65); margin-top: 0.2rem; letter-spacing: 0.08em; }
+  .project-view-btn { margin-top: 0.6rem; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); opacity: 0; transform: translateY(6px); transition: all 0.3s; }
+  .project-card:hover .project-view-btn { opacity: 1; transform: translateY(0); }
+
+  /* PROJECT DETAIL PAGE */
+  .project-detail { padding: 3rem 0 5rem; }
+  .project-detail-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--gold-dark); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: none; background: none; margin-bottom: 2rem; transition: gap 0.2s; }
+  .project-detail-back:hover { gap: 0.8rem; }
+  .project-detail-header { margin-bottom: 2.5rem; }
+  .project-detail-cat { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .project-detail-title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 0.75rem; }
+  .project-detail-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .project-detail-meta-item { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.08em; }
+  .project-detail-meta-item strong { color: var(--black); font-weight: 600; }
+  .project-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+  .project-gallery-main { grid-column: 1 / -1; aspect-ratio: 16/7; overflow: hidden; border-radius: 2px; }
+  .project-gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+  .project-gallery-thumb { aspect-ratio: 4/3; overflow: hidden; border-radius: 2px; cursor: pointer; }
+  .project-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .project-gallery-thumb:hover img { transform: scale(1.04); }
+  .project-detail-body { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+  .project-detail-desc { font-size: clamp(0.85rem, 1.8vw, 0.95rem); line-height: 1.9; color: #444; }
+  .project-detail-sidebar { }
+  .project-detail-sidebar-label { font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; margin-top: 1.5rem; }
+  .project-detail-sidebar-label:first-child { margin-top: 0; }
+  .project-detail-sidebar-value { font-size: 0.82rem; color: var(--black); font-weight: 500; }
+
+  /* WHY */
+  .why-bg { background: var(--grey); }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 3vw, 2.5rem); margin-top: 3rem; }
+  .why-card { padding: clamp(1.5rem, 3vw, 2.5rem); background: white; border: 1px solid var(--grey2); transition: box-shadow 0.3s, border-color 0.3s; }
+  .why-card:hover { box-shadow: 0 6px 30px rgba(0,0,0,0.07); border-color: var(--gold-light); }
+  .why-icon { font-size: 1.1rem; color: var(--gold); margin-bottom: 0.8rem; }
+  .why-card-title { font-weight: 600; font-size: clamp(0.8rem, 1.5vw, 0.9rem); margin-bottom: 0.5rem; }
+  .why-card-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* CONTACT */
+  .contact-bg { background: var(--black); color: white; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  .contact-info .section-label { color: var(--gold-light); }
+  .contact-info .section-title { color: white; }
+  .contact-info .section-sub { color: rgba(255,255,255,0.6); max-width: 100%; }
+  .contact-items { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 0.9rem; }
+  .contact-item-icon { width: 38px; height: 38px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); }
+  .contact-item-label { font-size: 0.52rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.25rem; }
+  .contact-item-value { font-size: clamp(0.82rem, 1.8vw, 0.9rem); font-weight: 300; }
+  .contact-item-value a { color: white; text-decoration: none; }
+  .contact-item-value a:hover { color: var(--gold-light); }
+  .social-links { display: flex; gap: 0.75rem; margin-top: 2rem; flex-wrap: wrap; }
+  .social-link { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 0.7rem; font-weight: 600; transition: all 0.3s; letter-spacing: 0.05em; }
+  .social-link:hover { border-color: var(--gold); background: var(--gold); }
+  .whatsapp-cta { display: inline-flex; align-items: center; gap: 0.7rem; background: #25D366; color: white; padding: 0.8rem 1.6rem; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background 0.3s; margin-top: 1.5rem; }
+  .whatsapp-cta:hover { background: #1da851; }
+
+  /* FORM */
+  .form-title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 300; color: white; margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.4rem; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); color: white; padding: 0.75rem 0.9rem; font-size: 0.8rem; outline: none; transition: border-color 0.2s; font-family: var(--font-sans); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group select option { background: #1a1a1a; }
+  .form-group textarea { height: 90px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-submit { width: 100%; background: var(--gold); color: white; border: none; padding: 0.9rem; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; margin-top: 0.4rem; font-family: var(--font-sans); }
+  .form-submit:hover { background: #b8922e; }
+  .form-success { text-align: center; padding: 2rem; color: var(--gold-light); font-family: var(--font-serif); font-size: 1.2rem; }
+
+  /* FOOTER */
+  .footer { background: #050505; color: rgba(255,255,255,0.45); padding: clamp(1.5rem, 3vw, 2rem) clamp(1rem, 5vw, 4rem); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid rgba(201,168,76,0.18); font-size: 0.62rem; letter-spacing: 0.08em; }
+  .footer span { color: var(--gold); }
+  .footer-right { display: flex; gap: 1.5rem; }
+  .footer-right a { color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+  .footer-right a:hover { color: var(--gold); }
+
+  /* FLOATING BTNS */
+  .float-wrap { position: fixed; bottom: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); z-index: 990; display: flex; flex-direction: column; gap: 0.6rem; }
+  .float-btn { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: none; color: white; }
+  .float-wa { background: #25D366; box-shadow: 0 4px 18px rgba(37,211,102,0.4); color: white; }
+  .float-wa:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+  .float-ph { background: var(--black); border: 1px solid var(--gold); box-shadow: 0 4px 18px rgba(0,0,0,0.2); color: white; }
+  .float-ph:hover { transform: scale(1.1); background: var(--gold); }
+
+  /* ADMIN PANEL */
+  .admin-trigger { position: fixed; bottom: 1rem; left: 1rem; z-index: 2000; width: 34px; height: 34px; background: rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; border-radius: 8px; opacity: 0.2; transition: opacity 0.2s, background 0.2s; display: flex; align-items: center; justify-content: center; color: #444; }
+  .admin-trigger:hover { opacity: 1; background: var(--black); color: white; border-color: var(--black); }
+  .admin-overlay { position: fixed; inset: 0; z-index: 3000; display: flex; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); animation: fadeIn 0.2s; }
+  .sp-panel { width: min(420px, 100vw); background: #f6f6f7; display: flex; flex-direction: column; height: 100%; box-shadow: 4px 0 60px rgba(0,0,0,0.25); animation: slideInLeft 0.25s cubic-bezier(.25,.46,.45,.94); }
+  .sp-topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; height: 54px; background: #1a1a1a; flex-shrink: 0; }
+  .sp-topbar-site { font-size: 0.78rem; font-weight: 600; color: white; }
+  .sp-topbar-sub { font-size: 0.6rem; color: rgba(255,255,255,0.4); }
+  .sp-topbar-actions { display: flex; gap: 0.5rem; }
+  .sp-btn-discard { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.4rem 0.8rem; font-size: 0.7rem; font-weight: 500; cursor: pointer; border-radius: 6px; font-family: var(--font-sans); }
+  .sp-btn-discard:hover { background: rgba(255,255,255,0.18); }
+  .sp-btn-save { background: #008060; border: none; color: white; padding: 0.4rem 0.9rem; font-size: 0.7rem; font-weight: 600; cursor: pointer; border-radius: 6px; font-family: var(--font-sans); }
+  .sp-btn-save:hover { background: #006e52; }
+  .sp-breadcrumb { display: flex; align-items: center; gap: 0.4rem; padding: 0.65rem 1rem; background: white; border-bottom: 1px solid #e1e3e5; flex-shrink: 0; }
+  .sp-breadcrumb-btn { background: none; border: none; cursor: pointer; padding: 0.2rem 0.3rem; border-radius: 4px; display: flex; align-items: center; color: #6d7175; font-size: 0.7rem; }
+  .sp-breadcrumb-btn:hover { background: #f1f2f3; color: #202223; }
+  .sp-breadcrumb-sep { color: #c9cccf; font-size: 0.68rem; }
+  .sp-breadcrumb-current { font-size: 0.7rem; font-weight: 600; color: #202223; }
+  .sp-section-list { flex: 1; overflow-y: auto; padding: 0.75rem; }
+  .sp-section-group-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6d7175; padding: 0.35rem 0.5rem; margin-bottom: 0.25rem; margin-top: 0.75rem; }
+  .sp-section-group-label:first-child { margin-top: 0; }
+  .sp-section-item { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0.85rem; background: white; border-radius: 8px; border: 1px solid #e1e3e5; margin-bottom: 0.3rem; cursor: pointer; transition: box-shadow 0.15s, border-color 0.15s; }
+  .sp-section-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-color: #c9cccf; }
+  .sp-section-item-left { display: flex; align-items: center; gap: 0.65rem; }
+  .sp-section-icon { width: 30px; height: 30px; background: #f6f6f7; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #6d7175; flex-shrink: 0; }
+  .sp-section-name { font-size: 0.76rem; font-weight: 500; color: #202223; }
+  .sp-section-desc { font-size: 0.62rem; color: #6d7175; margin-top: 1px; }
+  .sp-editor { flex: 1; overflow-y: auto; }
+  .sp-editor-body { padding: 0.75rem; }
+  .sp-card { background: white; border-radius: 8px; border: 1px solid #e1e3e5; margin-bottom: 0.65rem; overflow: hidden; }
+  .sp-card-header { padding: 0.85rem 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.1s; user-select: none; }
+  .sp-card-header:hover { background: #fafbfb; }
+  .sp-card-title { font-size: 0.76rem; font-weight: 600; color: #202223; }
+  .sp-card-subtitle { font-size: 0.62rem; color: #6d7175; margin-top: 2px; }
+  .sp-card-chevron { color: #8c9196; transition: transform 0.2s; }
+  .sp-card-chevron.open { transform: rotate(180deg); }
+  .sp-card-body { padding: 0 0.95rem 0.95rem; border-top: 1px solid #f1f2f3; padding-top: 0.75rem; }
+  .sp-field { margin-bottom: 0.8rem; }
+  .sp-field:last-child { margin-bottom: 0; }
+  .sp-field label { display: block; font-size: 0.68rem; font-weight: 600; color: #202223; margin-bottom: 0.3rem; }
+  .sp-field input, .sp-field textarea, .sp-field select { width: 100%; border: 1px solid #c9cccf; border-radius: 6px; padding: 0.5rem 0.7rem; font-size: 0.78rem; color: #202223; outline: none; font-family: var(--font-sans); transition: border-color 0.15s, box-shadow 0.15s; background: white; }
+  .sp-field input:focus, .sp-field textarea:focus { border-color: #005bd3; box-shadow: 0 0 0 3px rgba(0,91,211,0.1); }
+  .sp-field textarea { height: 75px; resize: vertical; line-height: 1.5; }
+  .sp-field-hint { font-size: 0.6rem; color: #6d7175; margin-top: 0.25rem; }
+  .sp-img-upload { border: 2px dashed #c9cccf; border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; background: #fafbfb; position: relative; }
+  .sp-img-upload:hover { border-color: #005bd3; background: #f0f5ff; }
+  .sp-img-upload input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; border: none; padding: 0; }
+  .sp-img-upload-text { font-size: 0.7rem; font-weight: 600; color: #005bd3; }
+  .sp-img-upload-sub { font-size: 0.6rem; color: #6d7175; margin-top: 0.15rem; }
+  .sp-img-preview { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid #e1e3e5; margin-bottom: 0.5rem; }
+  .sp-img-preview img { width: 100%; height: 130px; object-fit: cover; display: block; }
+  .sp-img-preview-actions { position: absolute; top: 0.4rem; right: 0.4rem; display: flex; gap: 0.3rem; }
+  .sp-img-action-btn { width: 26px; height: 26px; background: white; border: 1px solid #e1e3e5; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6d7175; transition: all 0.15s; }
+  .sp-img-action-btn:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+  .sp-add-btn { width: 100%; border: 2px dashed #c9cccf; background: none; border-radius: 8px; padding: 0.75rem; font-size: 0.72rem; color: #6d7175; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-top: 0.5rem; }
+  .sp-add-btn:hover { border-color: #005bd3; color: #005bd3; background: #f0f5ff; }
+  .sp-delete-btn { width: 100%; border: none; background: #fff4f4; border-radius: 6px; padding: 0.55rem; font-size: 0.68rem; color: #dc2626; cursor: pointer; font-family: var(--font-sans); transition: background 0.15s; margin-top: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+  .sp-delete-btn:hover { background: #fee2e2; }
+  .sp-login { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; gap: 1rem; }
+  .sp-login-logo { width: 52px; height: 52px; background: var(--black); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; }
+  .sp-login-title { font-size: 0.95rem; font-weight: 700; color: #202223; }
+  .sp-login-sub { font-size: 0.7rem; color: #6d7175; text-align: center; line-height: 1.5; }
+  .sp-login-box { width: 100%; background: white; border: 1px solid #e1e3e5; border-radius: 10px; padding: 1.3rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .sp-login-box input { width: 100%; border: 1px solid #c9cccf; border-radius: 6px; padding: 0.6rem 0.9rem; font-size: 0.85rem; outline: none; font-family: var(--font-sans); text-align: center; letter-spacing: 0.15em; }
+  .sp-login-box input:focus { border-color: #005bd3; box-shadow: 0 0 0 3px rgba(0,91,211,0.1); }
+  .sp-login-btn { width: 100%; background: #008060; color: white; border: none; padding: 0.65rem; font-size: 0.75rem; font-weight: 600; border-radius: 6px; cursor: pointer; font-family: var(--font-sans); }
+  .sp-login-btn:hover { background: #006e52; }
+  .sp-login-hint { font-size: 0.6rem; color: #6d7175; text-align: center; }
+  .sp-login-error { background: #fff4f4; border: 1px solid #fca5a5; color: #dc2626; border-radius: 6px; padding: 0.45rem 0.7rem; font-size: 0.7rem; text-align: center; }
+  .admin-dismiss { flex: 1; cursor: pointer; }
+  .save-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #202223; color: white; padding: 0.65rem 1.4rem; font-size: 0.7rem; z-index: 5000; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); animation: toastIn 0.3s ease, toastOut 0.3s ease 1.7s forwards; pointer-events: none; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+  .save-toast::before { content:'✓'; color: #a8f5c5; font-weight: 700; }
+  .sp-img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .sp-img-grid-item { position: relative; aspect-ratio: 4/3; border-radius: 6px; overflow: hidden; border: 1px solid #e1e3e5; }
+  .sp-img-grid-item img { width: 100%; height: 100%; object-fit: cover; }
+  .sp-img-grid-remove { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(220,38,38,0.9); border: none; border-radius: 4px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
+
+  /* Logo preview in admin (contain fit for logo images) */
+  .sp-logo-preview img { object-fit: contain !important; background: #f6f6f7; padding: 0.5rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideInLeft { from { transform: translateX(-28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-7px); } }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(8px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 1023px) {
+    :root { --nav-h: 66px; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img-wrap { aspect-ratio: 16/9; }
+    .about-img-accent { display: none; }
+    .about-story-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-mv-grid { grid-template-columns: 1fr; }
+    .about-gallery { grid-template-columns: repeat(2,1fr); }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .pooja-split { grid-template-columns: 1fr; }
+    .pooja-img { min-height: 280px; }
+    .form-row { grid-template-columns: 1fr; }
+    .heritage-strip .hs-divider { display: none; }
+    .heritage-strip { flex-direction: column; gap: 0.8rem; text-align: center; }
+    .footer { flex-direction: column; align-items: center; text-align: center; }
+    .footer-right { justify-content: center; }
+    .project-detail-body { grid-template-columns: 1fr; }
+    .project-gallery { grid-template-columns: 1fr; }
+    .project-gallery-main { aspect-ratio: 16/9; }
+  }
+
+  @media (max-width: 767px) {
+    :root { --nav-h: 60px; }
+    .navbar { padding: 0 1rem; }
+    .nav-desktop { display: none; }
+    .nav-brand-logo { height: 36px; }
+    .container { padding: 0 1rem; }
+    section { padding: clamp(2.5rem, 8vw, 4rem) 0; }
+    .hero-sub { display: none; }
+    .hero-scroll { display: none; }
+    .hero-actions { gap: 0.75rem; }
+    .hero-actions a { padding: 0.75rem 1.4rem; font-size: 0.62rem; }
+    .page-hero { height: clamp(140px, 45vw, 240px); }
+    .about-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-img-wrap { aspect-ratio: 4/3; }
+    .about-img-accent { display: none; }
+    .about-story-grid { grid-template-columns: 1fr; margin-top: 2.5rem; }
+    .about-mv-grid { grid-template-columns: 1fr; margin-top: 2rem; }
+    .about-gallery { grid-template-columns: 1fr 1fr; }
+    .products-grid { grid-template-columns: 1fr; gap: 2px; }
+    .product-info { transform: translateY(0) !important; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 70%) !important; }
+    .product-desc { display: none; }
+    .projects-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+    .project-overlay { opacity: 1 !important; }
+    .why-grid { grid-template-columns: 1fr; }
+    .pooja-split { grid-template-columns: 1fr; }
+    .pooja-img { min-height: 220px; }
+    .pooja-features { grid-template-columns: 1fr; gap: 0.6rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .stats-row { gap: 1.5rem; }
+    .footer { flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; }
+    .footer-right { justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    .float-btn { width: 46px; height: 46px; }
+    .heritage-strip { flex-direction: column; gap: 0.6rem; text-align: center; }
+    .heritage-strip .hs-divider { display: none; }
+    .project-detail-body { grid-template-columns: 1fr; gap: 1.5rem; }
+    .project-gallery { grid-template-columns: 1fr; }
+    .project-gallery-main { aspect-ratio: 16/9; }
+    .sp-panel { width: 100vw; }
+    #about { background: #ffffff; }
+    .projects-section { background: #ffffff; }
+  }
+
+  @media (max-width: 380px) {
+    .nav-brand-name { font-size: 0.95rem; }
+    .hero-title { font-size: 1.9rem; }
+  }
+
+  @media (min-width: 1440px) {
+    .container { max-width: 1400px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+`;
+
+// ICONS
+const PhoneIcon = ({ size = 16, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+);
+const MailIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+);
+const MapIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+);
+const WaIcon = ({ color = "white" }) => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill={color}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+);
+const ChevronRight = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M9 18l6-6-6-6"/></svg>;
+const ChevronDown = () => <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M6 9l6 6 6-6"/></svg>;
+const TrashIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>;
+const PlusIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>;
+
+// ADMIN ACCORDION CARD
+function SpCard({ title, subtitle, children, defaultOpen = false }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="sp-card">
+      <div className="sp-card-header" onClick={() => setOpen(o => !o)}>
+        <div>
+          <div className="sp-card-title">{title}</div>
+          {subtitle && <div className="sp-card-subtitle">{subtitle}</div>}
+        </div>
+        <span className={"sp-card-chevron" + (open ? " open" : "")}><ChevronDown /></span>
+      </div>
+      {open && <div className="sp-card-body">{children}</div>}
+    </div>
+  );
+}
+
+// IMAGE UPLOAD HELPER
+function SpImageUpload({ value, onUrl, label, hint, previewClass = "" }) {
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => onUrl(ev.target.result);
+    reader.readAsDataURL(file);
+  };
+  return (
+    <div className="sp-field">
+      {label && <label>{label}</label>}
+      {value ? (
+        <div className={"sp-img-preview " + previewClass}>
+          <img src={value} alt="preview" />
+          <div className="sp-img-preview-actions">
+            <label className="sp-img-action-btn" title="Replace" style={{ cursor:"pointer" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <input type="file" accept="image/*" onChange={handleFile} style={{ display:"none" }} />
+            </label>
+            <button className="sp-img-action-btn" title="Remove" onClick={() => onUrl("")}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="sp-img-upload">
+          <input type="file" accept="image/*" onChange={handleFile} />
+          <div className="sp-img-upload-text">Upload from device</div>
+          <div className="sp-img-upload-sub">JPG, PNG, WebP — or paste URL below</div>
+        </div>
+      )}
+      <input
+        value={value && value.startsWith("data:") ? "" : (value || "")}
+        onChange={e => onUrl(e.target.value)}
+        placeholder="https://example.com/image.jpg"
+        style={{ marginTop:"0.45rem", borderRadius:6, border:"1px solid #c9cccf", padding:"0.45rem 0.7rem", fontSize:"0.75rem", width:"100%", outline:"none", fontFamily:"inherit" }}
+      />
+      {hint && <div className="sp-field-hint">{hint}</div>}
+    </div>
+  );
+}
+
+// MAIN APP
+export default function App() {
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [loaded, setLoaded] = useState(false);
+  const [activePage, setActivePage] = useState("home");
+  const [activeProject, setActiveProject] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [sidebarOpen, setSidebar] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [adminAuthed, setAdminAuthed] = useState(false);
+  const [adminPass, setAdminPass] = useState("");
+  const [adminLoginError, setLoginError] = useState(false);
+  const [adminTab, setAdminTab] = useState(null);
+  const [adminDraft, setAdminDraft] = useState({});
+  const [toast, setToast] = useState(false);
+  const [formData, setFormData] = useState({ name:"", phone:"", email:"", product:"", message:"" });
+  const [formSent, setFormSent] = useState(false);
+
+  useEffect(() => {
+    try {
+      const val = localStorage.getItem("mandir_content");
+      if (val) setContent({ ...DEFAULT_CONTENT, ...JSON.parse(val) });
+    } catch {}
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  useEffect(() => {
+    if (content.favicon) {
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+      link.href = content.favicon;
+    }
+  }, [content.favicon]);
+
+  const navigate = (page) => { setActivePage(page); setActiveProject(null); setSidebar(false); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const openProject = (proj) => { setActiveProject(proj); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  const openAdmin = () => { setAdminDraft(JSON.parse(JSON.stringify(content))); setAdminTab(null); setAdminOpen(true); };
+  const handleAdminLogin = () => {
+    if (adminPass === "Deco@1955") { setAdminAuthed(true); setLoginError(false); }
+    else { setLoginError(true); setAdminPass(""); }
+  };
+  const saveAdmin = () => {
+    try {
+      localStorage.setItem("mandir_content", JSON.stringify(adminDraft));
+      setContent({ ...adminDraft }); setToast(true);
+      setTimeout(() => setToast(false), 2200);
+    } catch {}
+  };
+
+  const upd = (key, val) => setAdminDraft(p => ({ ...p, [key]: val }));
+  const updProduct = (i, field, val) => setAdminDraft(p => { const n = { ...p, products: [...p.products] }; n.products[i] = { ...n.products[i], [field]: val }; return n; });
+  const updProject = (i, field, val) => setAdminDraft(p => { const n = { ...p, projects: [...p.projects] }; n.projects[i] = { ...n.projects[i], [field]: val }; return n; });
+  const updProjectImages = (i, imgs) => setAdminDraft(p => { const n = { ...p, projects: [...p.projects] }; n.projects[i] = { ...n.projects[i], images: imgs }; return n; });
+  const addProject = () => setAdminDraft(p => ({ ...p, projects: [...(p.projects||[]), { id: Date.now(), title:"New Project", category:"", location:"", year: new Date().getFullYear().toString(), description:"", images:[] }] }));
+  const deleteProject = (i) => setAdminDraft(p => { const projs = [...p.projects]; projs.splice(i,1); return { ...p, projects: projs }; });
+  const addProduct = () => setAdminDraft(p => ({ ...p, products: [...(p.products||[]), { id: Date.now(), name:"New Collection", subtitle:"", desc:"", image:"", tag:"" }] }));
+  const deleteProduct = (i) => setAdminDraft(p => { const prods = [...p.products]; prods.splice(i,1); return { ...p, products: prods }; });
+  const updWhyPoint = (i, field, val) => setAdminDraft(p => { const n = { ...p, whyPoints: [...p.whyPoints] }; n.whyPoints[i] = { ...n.whyPoints[i], [field]: val }; return n; });
+  const addWhyPoint = () => setAdminDraft(p => ({ ...p, whyPoints: [...(p.whyPoints||[]), { icon:"✦", title:"New Point", desc:"" }] }));
+  const deleteWhyPoint = (i) => setAdminDraft(p => { const w = [...p.whyPoints]; w.splice(i,1); return { ...p, whyPoints: w }; });
+  const updPoojaFeature = (i, val) => setAdminDraft(p => { const n = { ...p, poojaFeatures: [...p.poojaFeatures] }; n.poojaFeatures[i] = val; return n; });
+  const addPoojaFeature = () => setAdminDraft(p => ({ ...p, poojaFeatures: [...(p.poojaFeatures||[]), "New Feature"] }));
+  const deletePoojaFeature = (i) => setAdminDraft(p => { const f = [...p.poojaFeatures]; f.splice(i,1); return { ...p, poojaFeatures: f }; });
+  const updNavItem = (i, val) => setAdminDraft(p => { const n = { ...p, navItems: [...(p.navItems||DEFAULT_CONTENT.navItems)] }; n.navItems[i] = { ...n.navItems[i], label: val }; return n; });
+  const updGalleryImg = (i, val) => setAdminDraft(p => { const g = [...(p.aboutGallery||[])]; g[i] = val; return { ...p, aboutGallery: g }; });
+  const addGalleryImg = () => setAdminDraft(p => ({ ...p, aboutGallery: [...(p.aboutGallery||[]), ""] }));
+  const removeGalleryImg = (i) => setAdminDraft(p => { const g = [...(p.aboutGallery||[])]; g.splice(i,1); return { ...p, aboutGallery: g }; });
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await fetch("https://formspree.io/f/YOUR_FORMSPREE_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+    } catch(err) {}
+    setFormSent(true);
+    setTimeout(() => setFormSent(false), 5000);
+    setFormData({ name:"", phone:"", email:"", product:"", message:"" });
+  };
+
+  if (!loaded) return (
+    <div style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100vh", fontFamily:"var(--font-sans)", fontSize:"0.75rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"#C9A84C" }}>
+      Loading…
+    </div>
+  );
+
+  const c = content;
+  const NAV_ITEMS = c.navItems || DEFAULT_CONTENT.navItems;
+
+  // ── PAGE COMPONENTS ────────────────────────────────────────────────────────
+
+  const HeroSection = () => (
+    <section className="hero" style={{ padding: 0, marginTop: "calc(-1 * var(--nav-h))" }}>
+      <div className="hero-bg loaded" style={{ backgroundImage:"url(" + c.heroImage + ")" }} />
+      <div className="hero-overlay" />
+      <div className="hero-content">
+        <div className="hero-eyebrow">✦ &nbsp;Mandir Emporium &nbsp;·&nbsp; A Unit of The Deco Furns &nbsp;✦</div>
+        <h1 className="hero-title">
+          {c.tagline.split(". ").map((t, i) =>
+            i % 2 === 1 ? <em key={i}>{t}</em> : <span key={i}>{t}. </span>
+          )}
+        </h1>
+        <p className="hero-sub">{c.subTagline}</p>
+        <div className="hero-actions">
+          <button className="btn-gold" onClick={() => navigate("collections")}>{c.heroBtnLabel || "Explore Collections"}</button>
+          <a href={"tel:" + c.phone} className="btn-outline-white"><PhoneIcon /> {c.phone}</a>
+        </div>
+      </div>
+      <div className="hero-scroll"><div className="hero-scroll-line" />Scroll</div>
+    </section>
+  );
+
+  const HeritageStrip = () => (
+    <div className="heritage-strip">
+      <div className="hs-item"><div className="hs-label">A Proud Unit of</div><div className="hs-value serif">The Deco Furns</div></div>
+      <div className="hs-divider" />
+      <div className="hs-tagline">Rooted in <em>70+ years of expertise</em>, The Deco Furns blends heritage craftsmanship with modern luxury to create masterpieces that last generations.</div>
+      <div className="hs-divider" />
+      <div className="hs-item"><div className="hs-label">Legacy Since</div><div className="hs-value serif">1954</div></div>
+    </div>
+  );
+
+  const AboutSection = ({ compact = false }) => (
+    <section id="about">
+      <div className="container">
+        <div className="about-grid">
+          <div className="about-img-wrap">
+            <img src={c.aboutImage} alt="About Mandir Emporium" loading="lazy" />
+            <div className="about-img-accent" />
+            <div className="about-img-label">Est. 1954 · New Delhi</div>
+          </div>
+          <div>
+            <div className="section-label">✦ {c.aboutSubtitle || "Our Legacy"}</div>
+            <h2 className="section-title serif">{c.aboutTitle}</h2>
+            <div className="section-divider" />
+            <p className="section-sub">{c.aboutText}</p>
+            {!compact && (
+              <div className="stats-row">
+                <div><div className="stat-num serif">70+</div><div className="stat-label">Years of Heritage</div></div>
+                <div><div className="stat-num serif">5000+</div><div className="stat-label">Mandirs Created</div></div>
+                <div><div className="stat-num serif">100+</div><div className="stat-label">Master Artisans</div></div>
+              </div>
+            )}
+            {compact && (
+              <button className="btn-gold" style={{ marginTop:"1.5rem" }} onClick={() => navigate("about")}>Read Our Story →</button>
+            )}
+          </div>
+        </div>
+
+        {!compact && <>
+          <div className="about-story-grid">
+            <div>
+              <div className="section-label">✦ Our Story</div>
+              <h2 className="section-title serif">{c.aboutStoryTitle || "Our Story"}</h2>
+              <div className="section-divider" />
+              <p className="section-sub" style={{ maxWidth:"100%" }}>{c.aboutStoryText}</p>
+            </div>
+            <div className="about-story-img">
+              <img src={c.aboutStoryImage} alt="Our Story" loading="lazy" />
+            </div>
+          </div>
+          <div className="about-mv-grid">
+            <div className="about-mv-card">
+              <div className="about-mv-label">Our Mission</div>
+              <div className="about-mv-text">"{c.aboutMission}"</div>
+            </div>
+            <div className="about-mv-card">
+              <div className="about-mv-label">Our Vision</div>
+              <div className="about-mv-text">"{c.aboutVision}"</div>
+            </div>
+          </div>
+          {(c.aboutGallery || []).length > 0 && (
+            <div style={{ marginTop:"4rem" }}>
+              <div className="section-label" style={{ marginBottom:"1.5rem" }}>✦ Our Work</div>
+              <div className="about-gallery">
+                {(c.aboutGallery || []).map((img, i) => (
+                  <div key={i} className="about-gallery-img">
+                    <img src={img} alt={"Gallery " + (i+1)} loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>}
+      </div>
+    </section>
+  );
+
+  const ProductsSection = () => (
+    <section className="products-bg">
+      <div className="container">
+        <div className="center-header">
+          <div className="section-label">✦ Our Collections</div>
+          <h2 className="section-title serif">Sacred <em>Masterpieces</em></h2>
+          <div className="section-divider" />
+          <p className="section-sub">Distinct collections crafted from the finest materials worldwide.</p>
+        </div>
+        <div className="products-grid">
+          {c.products.map(p => (
+            <div key={p.id} className="product-card">
+              <img src={p.image} alt={p.name} loading="lazy" />
+              {p.tag && <div className="product-badge">{p.tag}</div>}
+              <div className="product-info">
+                <div className="product-sub">{p.subtitle}</div>
+                <div className="product-name serif">{p.name}</div>
+                <div className="product-desc">{p.desc}</div>
+                <div className="product-cta">Enquire Now →</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const PoojaSection = () => (
+    <section style={{ padding:0 }}>
+      <div className="pooja-split">
+        <div className="pooja-img"><img src={c.poojaImage} alt="Pooja Room" loading="lazy" /></div>
+        <div className="pooja-content">
+          <div className="section-label">✦ Complete Pooja Rooms</div>
+          <h2 className="section-title serif" style={{ color:"white" }}>{c.poojaTitle}</h2>
+          <div className="section-divider" />
+          <p className="section-sub">{c.poojaSubtitle}</p>
+          <p className="section-sub" style={{ marginTop:"0.8rem" }}>{c.poojaText}</p>
+          <div className="pooja-features">
+            {c.poojaFeatures.map((f, i) => (
+              <div key={i} className="pooja-feat"><div className="pooja-feat-dot" />{f}</div>
+            ))}
+          </div>
+          <a href={"https://wa.me/" + c.whatsapp + "?text=Hello! I%27m interested in a complete Pooja Room setup."}
+            className="btn-gold" target="_blank" rel="noopener noreferrer">
+            Discuss Your Project →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+
+  const ProjectsSection = () => (
+    <section className="projects-section">
+      <div className="container">
+        <div className="center-header">
+          <div className="section-label">✦ Signature Projects</div>
+          <h2 className="section-title serif">Our <em>Top Projects</em></h2>
+          <div className="section-divider" />
+          <p className="section-sub">{c.projectsSubtitle}</p>
+        </div>
+        <div className="projects-grid">
+          {c.projects.map(p => (
+            <div key={p.id} className="project-card" onClick={() => openProject(p)}>
+              <img src={(p.images && p.images[0]) || ""} alt={p.title} loading="lazy" />
+              <div className="project-overlay">
+                <div className="project-cat">{p.category}</div>
+                <div className="project-name serif">{p.title}</div>
+                {p.location && <div className="project-location">{p.location}{p.year ? " · " + p.year : ""}</div>}
+                <div className="project-view-btn">View Project →</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const ProjectDetailPage = ({ project }) => (
+    <div className="page">
+      <div className="project-detail container">
+        <button className="project-detail-back" onClick={() => setActiveProject(null)}>
+          ← Back to Projects
+        </button>
+        <div className="project-detail-header">
+          <div className="project-detail-cat">{project.category}</div>
+          <h1 className="project-detail-title serif">{project.title}</h1>
+          <div className="project-detail-meta">
+            {project.location && <div className="project-detail-meta-item"><strong>Location:</strong> {project.location}</div>}
+            {project.year && <div className="project-detail-meta-item"><strong>Year:</strong> {project.year}</div>}
+            {project.category && <div className="project-detail-meta-item"><strong>Material:</strong> {project.category}</div>}
+          </div>
+        </div>
+        {(project.images || []).length > 0 && (
+          <div className="project-gallery">
+            <div className="project-gallery-main">
+              <img src={project.images[0]} alt={project.title} />
+            </div>
+            {project.images.slice(1).map((img, i) => (
+              <div key={i} className="project-gallery-thumb">
+                <img src={img} alt={project.title + " " + (i+2)} />
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="project-detail-body">
+          <div>
+            <p className="project-detail-desc">{project.description}</p>
+          </div>
+          <div className="project-detail-sidebar">
+            <div className="project-detail-sidebar-label">Material</div>
+            <div className="project-detail-sidebar-value">{project.category}</div>
+            {project.location && <>
+              <div className="project-detail-sidebar-label">Location</div>
+              <div className="project-detail-sidebar-value">{project.location}</div>
+            </>}
+            {project.year && <>
+              <div className="project-detail-sidebar-label">Year</div>
+              <div className="project-detail-sidebar-value">{project.year}</div>
+            </>}
+            <div style={{ marginTop:"2rem" }}>
+              <a href={"https://wa.me/" + c.whatsapp + "?text=Hello! I%27m interested in a project similar to " + encodeURIComponent(project.title)}
+                className="btn-gold" target="_blank" rel="noopener noreferrer" style={{ fontSize:"0.62rem" }}>
+                Enquire About This Project →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const WhySection = () => (
+    <section className="why-bg">
+      <div className="container">
+        <div className="center-header">
+          <div className="section-label">✦ Why Choose Us</div>
+          <h2 className="section-title serif"><em>Why</em> Mandir Emporium?</h2>
+          <div className="section-divider" />
+        </div>
+        <div className="why-grid">
+          {c.whyPoints.map((w, i) => (
+            <div key={i} className="why-card">
+              <div className="why-icon">{w.icon}</div>
+              <div className="why-card-title">{w.title}</div>
+              <div className="why-card-desc">{w.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const ContactSection = () => (
+    <section className="contact-bg">
+      <div className="container">
+        <div className="contact-grid">
+          <div className="contact-info">
+            <div className="section-label">✦ Get In Touch</div>
+            <h2 className="section-title serif">Let's Create Your<br/><em>Sacred Space</em></h2>
+            <div className="section-divider" />
+            <p className="section-sub" style={{ color:"rgba(255,255,255,0.6)" }}>Reach out for pricing, customisation, or to schedule a showroom visit.</p>
+            <div className="contact-items">
+              <div className="contact-item">
+                <div className="contact-item-icon"><PhoneIcon size={15} color="#C9A84C" /></div>
+                <div><div className="contact-item-label">Call Us</div><div className="contact-item-value"><a href={"tel:" + c.phone}>{c.phone}</a></div></div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-item-icon"><MailIcon size={15} /></div>
+                <div><div className="contact-item-label">Email</div><div className="contact-item-value"><a href={"mailto:" + c.email}>{c.email}</a></div></div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-item-icon"><MapIcon size={15} /></div>
+                <div><div className="contact-item-label">Visit Us</div><div className="contact-item-value">{c.address}</div></div>
+              </div>
+            </div>
+            <a href={"https://wa.me/" + c.whatsapp + "?text=Hello! I%27m interested in your mandirs."}
+              className="whatsapp-cta" target="_blank" rel="noopener noreferrer">
+              <WaIcon /> Chat on WhatsApp
+            </a>
+            <div className="social-links">
+              <a href={c.instagram} target="_blank" rel="noopener noreferrer" className="social-link">IG</a>
+              <a href={c.facebook} target="_blank" rel="noopener noreferrer" className="social-link">FB</a>
+              <a href={c.youtube} target="_blank" rel="noopener noreferrer" className="social-link">YT</a>
+              <a href={c.pinterest} target="_blank" rel="noopener noreferrer" className="social-link">PT</a>
+            </div>
+          </div>
+          <div>
+            <div className="form-title serif">Send an Enquiry</div>
+            {formSent ? (
+              <div className="form-success">✦ Thank You! We will contact you within 24 hours.</div>
+            ) : (
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-row">
+                  <div className="form-group"><label>Your Name *</label><input required value={formData.name} onChange={e=>setFormData({...formData,name:e.target.value})} placeholder="Full Name" /></div>
+                  <div className="form-group"><label>Phone *</label><input required value={formData.phone} onChange={e=>setFormData({...formData,phone:e.target.value})} placeholder="+91 XXXXX XXXXX" /></div>
+                </div>
+                <div className="form-group"><label>Email</label><input type="email" value={formData.email} onChange={e=>setFormData({...formData,email:e.target.value})} placeholder="your@email.com" /></div>
+                <div className="form-group">
+                  <label>I'm Interested In *</label>
+                  <select required value={formData.product} onChange={e=>setFormData({...formData,product:e.target.value})}>
+                    <option value="">Select a Collection</option>
+                    {c.products.map(p => <option key={p.id} value={p.name}>{p.name}</option>)}
+                    <option value="Complete Pooja Room Setup">Complete Pooja Room Setup</option>
+                    <option value="Custom Design">Custom Design</option>
+                  </select>
+                </div>
+                <div className="form-group"><label>Message</label><textarea value={formData.message} onChange={e=>setFormData({...formData,message:e.target.value})} placeholder="Tell us about your space, budget, and requirements." /></div>
+                <button type="submit" className="form-submit">Send Enquiry ✦</button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const PageHero = ({ title, em, label, bg }) => (
+    <div className="page-hero">
+      <div className="page-hero-bg" style={{ backgroundImage:"url(" + bg + ")" }} />
+      <div className="page-hero-overlay" />
+      <div className="page-hero-content">
+        <div className="page-hero-label">✦ {label}</div>
+        <h1 className="page-hero-title">{title} <em>{em}</em></h1>
+      </div>
+    </div>
+  );
+
+  const Footer = () => (
+    <footer className="footer">
+      <div>© {new Date().getFullYear()} <span>Mandir Emporium</span> · {c.footerText}</div>
+      <div className="footer-right">
+        {NAV_ITEMS.map(n => (
+          <a key={n.key} href="#" onClick={e=>{e.preventDefault();navigate(n.key)}}>{n.label}</a>
+        ))}
+      </div>
+    </footer>
+  );
+
+  // ── RENDER PAGES ────────────────────────────────────────────────────────────
+  const renderPage = () => {
+    if (activePage === "projects" && activeProject) {
+      return <ProjectDetailPage project={activeProject} />;
+    }
+    switch (activePage) {
+      case "home": return (
+        <>
+          <HeroSection />
+          <HeritageStrip />
+          <AboutSection compact />
+          <ProductsSection />
+          <PoojaSection />
+          <ProjectsSection />
+          <WhySection />
+          <ContactSection />
+        </>
+      );
+      case "collections": return (
+        <div className="page">
+          <PageHero title="Our Sacred" em="Collections" label="Mandir Collections" bg={c.heroImage} />
+          <ProductsSection />
+        </div>
+      );
+      case "pooja": return (
+        <div className="page">
+          <PageHero title="Complete" em="Pooja Rooms" label="Interior Pooja Room Setup" bg={c.poojaImage} />
+          <PoojaSection />
+          <WhySection />
+        </div>
+      );
+      case "projects": return (
+        <div className="page">
+          <PageHero title="Signature" em="Projects" label="Our Portfolio" bg={c.heroImage} />
+          <ProjectsSection />
+        </div>
+      );
+      case "about": return (
+        <div className="page">
+          <PageHero title="Our" em="Story & Legacy" label="About Mandir Emporium" bg={c.aboutImage} />
+          <HeritageStrip />
+          <AboutSection />
+          <WhySection />
+        </div>
+      );
+      case "contact": return (
+        <div className="page">
+          <PageHero title="Get In" em="Touch" label="Contact Us" bg={c.heroImage} />
+          <ContactSection />
+        </div>
+      );
+      default: return null;
+    }
+  };
+
+  // ── ADMIN SECTIONS ─────────────────────────────────────────────────────────
+  const adminSections = [
+    { group: "SITE SETTINGS" },
+    { key:"brand", name:"Brand & Logo", desc:"Logo image, brand name, tagline, nav labels", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="16" height="12" rx="1"/><path d="M2 8h16M6 12h4"/></svg> },
+    { key:"favicon", name:"Favicon", desc:"Browser tab icon", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M7 10h6M10 7v6" strokeLinecap="round"/></svg> },
+    { key:"footer", name:"Footer", desc:"Footer text & copyright", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="12" width="16" height="6" rx="1"/><path d="M2 8h16M2 4h10"/></svg> },
+    { group: "PAGES" },
+    { key:"homepage", name:"Homepage", desc:"Hero image, button, taglines", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9.5L10 3l7 6.5V18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M8 18v-6h4v6"/></svg> },
+    { key:"about", name:"About Us Page", desc:"Story, mission, vision, gallery", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="10" cy="6" r="3"/><path d="M4 18c0-3.31 2.69-6 6-6s6 2.69 6 6"/></svg> },
+    { key:"collections", name:"Collections Page", desc:"Products & descriptions", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 3h14l-1.5 9H4.5L3 3z"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg> },
+    { key:"projects", name:"Projects Page", desc:"Add, edit, delete projects", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg> },
+    { key:"pooja", name:"Pooja Rooms Page", desc:"Setup section & features", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M10 2L4 8v10h12V8L10 2z"/><path d="M8 18v-5h4v5"/></svg> },
+    { key:"contact", name:"Contact Page", desc:"Phone, email, address, social", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 4h16v12H2z"/><path d="M2 6l8 5 8-5"/></svg> },
+    { group: "SECTIONS" },
+    { key:"why", name:"Why Choose Us", desc:"USP points — add or edit", icon:<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 12l2 2 4-4M7 19H4a2 2 0 01-2-2V5a2 2 0 012-2h9l5 5v5"/></svg> },
+  ];
+
+  return (
+    <>
+      <style>{styles}</style>
+
+      {/* ── NAVBAR: [hamburger | logo (center) | nav-links] ── */}
+      <nav className={"navbar" + (scrolled ? " scrolled" : "")}>
+        {/* Left: hamburger (always visible) */}
+        <div className="nav-left">
+          <button
+            className={"nav-hamburger" + (sidebarOpen ? " open" : "")}
+            onClick={() => setSidebar(o => !o)}
+            aria-label="Menu"
+          >
+            <span /><span /><span />
+          </button>
+        </div>
+
+        {/* Center: logo */}
+        <div className="nav-center">
+          <a href="#" className="nav-brand" onClick={e=>{e.preventDefault();navigate("home")}}>
+            {c.logoImage ? (
+              <img src={c.logoImage} alt={c.brandName} className="nav-brand-logo" />
+            ) : (
+              <>
+                <span className="nav-brand-name">{c.brandName}</span>
+                <span className="nav-brand-sub">A Unit of The Deco Furns · Est. 1954</span>
+              </>
+            )}
+          </a>
+        </div>
+
+        {/* Right: desktop nav links */}
+        <div className="nav-right">
+          <div className="nav-desktop">
+            {NAV_ITEMS.map(n => (
+              <a key={n.key} href="#"
+                className={(activePage === n.key ? "active" : "") + (n.key === "contact" ? " nav-cta-btn" : "")}
+                onClick={e=>{e.preventDefault();navigate(n.key)}}>
+                {n.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      {/* MOBILE SIDEBAR */}
+      <div className={"sidebar-overlay" + (sidebarOpen ? " open" : "")} onClick={() => setSidebar(false)} />
+      <div className={"sidebar" + (sidebarOpen ? " open" : "")}>
+        <div className="sidebar-header">
+          <div>
+            {c.logoImage ? (
+              <img src={c.logoImage} alt={c.brandName} style={{ height:36, maxWidth:140, objectFit:"contain", filter:"brightness(0) invert(1)" }} />
+            ) : (
+              <>
+                <div className="sidebar-brand">{c.brandName}</div>
+                <div className="sidebar-brand-sub">A Unit of The Deco Furns</div>
+              </>
+            )}
+          </div>
+          <button className="sidebar-close" onClick={() => setSidebar(false)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <nav className="sidebar-nav">
+          {NAV_ITEMS.map(n => (
+            <a key={n.key} href="#" className={activePage === n.key ? "active" : ""} onClick={e=>{e.preventDefault();navigate(n.key)}}>
+              <svg className="sidebar-nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+                {n.key === "home" && <><path d="M3 9.5L10 3l7 6.5V18a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M8 18v-6h4v6"/></>}
+                {n.key === "collections" && <><path d="M3 3h14l-1.5 9H4.5L3 3z"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></>}
+                {n.key === "pooja" && <><path d="M10 2L4 8v10h12V8L10 2z"/><path d="M8 18v-5h4v5"/></>}
+                {n.key === "projects" && <><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></>}
+                {n.key === "about" && <><circle cx="10" cy="6" r="3"/><path d="M4 18c0-3.31 2.69-6 6-6s6 2.69 6 6"/></>}
+                {n.key === "contact" && <><path d="M2 4h16v12H2z"/><path d="M2 6l8 5 8-5"/></>}
+              </svg>
+              {n.label}
+            </a>
+          ))}
+          <div className="sidebar-divider" />
+          <a href={"tel:" + c.phone}>
+            <svg className="sidebar-nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 3h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L13 13l4 1.5V18c-8.3 0-15-6.7-15-15z"/></svg>
+            {c.phone}
+          </a>
+        </nav>
+        <div className="sidebar-footer">
+          <a href={"https://wa.me/" + c.whatsapp + "?text=Hello! I%27m interested in your mandirs."} className="sidebar-whatsapp" target="_blank" rel="noopener noreferrer">
+            <WaIcon /> WhatsApp Us
+          </a>
+          <button className="sidebar-contact-btn" style={{ marginTop:"0.5rem" }} onClick={() => navigate("contact")}>Enquire Now</button>
+        </div>
+      </div>
+
+      {/* PAGE CONTENT */}
+      <div>{renderPage()}</div>
+      <Footer />
+
+      {/* FLOATING BUTTONS */}
+      <div className="float-wrap">
+        <a href={"https://wa.me/" + c.whatsapp + "?text=Hello! I%27m interested in your mandirs."} className="float-btn float-wa" target="_blank" rel="noopener noreferrer" style={{ color:"white" }}>
+          <WaIcon color="white" />
+        </a>
+        <a href={"tel:" + c.phone} className="float-btn float-ph" style={{ color:"white" }}>
+          <PhoneIcon size={20} color="white" />
+        </a>
+      </div>
+
+      {/* ADMIN TRIGGER */}
+      <button className="admin-trigger" onClick={openAdmin}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      </button>
+
+      {/* ADMIN OVERLAY */}
+      {adminOpen && (
+        <div className="admin-overlay">
+          <div className="sp-panel">
+            <div className="sp-topbar">
+              <div>
+                <div className="sp-topbar-site">Mandir Emporium</div>
+                <div className="sp-topbar-sub">Theme Editor</div>
+              </div>
+              <div className="sp-topbar-actions">
+                <button className="sp-btn-discard" onClick={() => { setAdminOpen(false); setAdminTab(null); setAdminAuthed(false); setAdminPass(""); }}>Close</button>
+                {adminAuthed && <button className="sp-btn-save" onClick={saveAdmin}>Save</button>}
+              </div>
+            </div>
+
+            {!adminAuthed ? (
+              <div className="sp-login">
+                <div className="sp-login-logo">M</div>
+                <div className="sp-login-title">Admin Access</div>
+                <div className="sp-login-sub">Enter your password to edit the website</div>
+                <div className="sp-login-box">
+                  <input type="password" placeholder="Password" value={adminPass} onChange={e=>setAdminPass(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleAdminLogin()} />
+                  <button className="sp-login-btn" onClick={handleAdminLogin}>Unlock Editor</button>
+                  {adminLoginError && <div className="sp-login-error">Incorrect password. Try again.</div>}
+                </div>
+                <div className="sp-login-hint">Tap anywhere outside to close</div>
+              </div>
+            ) : adminTab === null ? (
+              <>
+                <div style={{ padding:"0.75rem 1rem", background:"white", borderBottom:"1px solid #e1e3e5", fontSize:"0.7rem", color:"#6d7175" }}>
+                  Select a section to edit
+                </div>
+                <div className="sp-section-list">
+                  {adminSections.map((s, idx) =>
+                    s.group ? (
+                      <div key={idx} className="sp-section-group-label">{s.group}</div>
+                    ) : (
+                      <div key={s.key} className="sp-section-item" onClick={() => setAdminTab(s.key)}>
+                        <div className="sp-section-item-left">
+                          <div className="sp-section-icon"><svg width="16" height="16" viewBox="0 0 20 20">{s.icon.props.children}</svg></div>
+                          <div>
+                            <div className="sp-section-name">{s.name}</div>
+                            <div className="sp-section-desc">{s.desc}</div>
+                          </div>
+                        </div>
+                        <ChevronRight />
+                      </div>
+                    )
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="sp-breadcrumb">
+                  <button className="sp-breadcrumb-btn" onClick={() => setAdminTab(null)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                    &nbsp;Back
+                  </button>
+                  <span className="sp-breadcrumb-sep">›</span>
+                  <span className="sp-breadcrumb-current">
+                    {adminSections.find(s=>s.key===adminTab)?.name || adminTab}
+                  </span>
+                </div>
+                <div className="sp-editor">
+                  <div className="sp-editor-body">
+
+                    {/* ── BRAND & LOGO ── */}
+                    {adminTab === "brand" && <>
+                      <SpCard title="Logo Image" defaultOpen subtitle="Upload your logo or use text brand name">
+                        <div className="sp-field-hint" style={{marginBottom:"0.75rem", lineHeight:1.6}}>
+                          Upload a logo image to replace the text brand name in the navbar. Leave blank to use text. Best: <strong>transparent PNG</strong>, wide format (e.g. 400×120px).
+                        </div>
+                        <SpImageUpload
+                          value={adminDraft.logoImage||""}
+                          onUrl={v=>upd("logoImage",v)}
+                          label="Logo Image"
+                          hint="Transparent PNG recommended. Wide/horizontal format works best."
+                          previewClass="sp-logo-preview"
+                        />
+                        {adminDraft.logoImage && (
+                          <div style={{marginTop:"0.5rem"}}>
+                            <button className="sp-delete-btn" onClick={() => upd("logoImage","")}>
+                              <TrashIcon /> Remove Logo (revert to text)
+                            </button>
+                          </div>
+                        )}
+                      </SpCard>
+                      <SpCard title="Brand Name (Text Fallback)" subtitle="Shown when no logo image is uploaded">
+                        <div className="sp-field"><label>Brand Name</label><input value={adminDraft.brandName||""} onChange={e=>upd("brandName",e.target.value)} /></div>
+                      </SpCard>
+                      <SpCard title="Navigation Menu Labels">
+                        <div className="sp-field-hint" style={{marginBottom:"0.75rem"}}>Edit the label shown in the menu for each page.</div>
+                        {(adminDraft.navItems || DEFAULT_CONTENT.navItems).map((n, i) => (
+                          <div className="sp-field" key={n.key}>
+                            <label>{n.key.charAt(0).toUpperCase() + n.key.slice(1)} Page Label</label>
+                            <input value={n.label} onChange={e=>updNavItem(i, e.target.value)} />
+                          </div>
+                        ))}
+                      </SpCard>
+                      <SpCard title="Contact Details (shown in header)">
+                        <div className="sp-field"><label>Phone Number</label><input value={adminDraft.phone||""} onChange={e=>upd("phone",e.target.value)} /></div>
+                        <div className="sp-field"><label>WhatsApp Number (with country code, no +)</label><input value={adminDraft.whatsapp||""} onChange={e=>upd("whatsapp",e.target.value)} /><div className="sp-field-hint">E.g. 919876543210</div></div>
+                      </SpCard>
+                    </>}
+
+                    {/* FAVICON */}
+                    {adminTab === "favicon" && (
+                      <SpCard title="Favicon (Browser Tab Icon)" defaultOpen>
+                        <div className="sp-field-hint" style={{marginBottom:"0.75rem", lineHeight:1.6}}>
+                          Appears in the browser tab and phone home screen. Best: <strong>512×512px</strong> square PNG.
+                        </div>
+                        <SpImageUpload value={adminDraft.favicon||""} onUrl={v=>upd("favicon",v)} label="Favicon Image" hint="Square image, 512×512px recommended." />
+                        {adminDraft.favicon && (
+                          <div style={{display:"flex",alignItems:"center",gap:"0.75rem",marginTop:"0.75rem",padding:"0.75rem",background:"#f6f6f7",borderRadius:"8px",border:"1px solid #e1e3e5"}}>
+                            <img src={adminDraft.favicon} alt="favicon preview" style={{width:32,height:32,objectFit:"cover",borderRadius:4,border:"1px solid #e1e3e5"}} />
+                            <div><div style={{fontSize:"0.72rem",fontWeight:600,color:"#202223"}}>Preview</div><div style={{fontSize:"0.62rem",color:"#6d7175"}}>Browser tab icon</div></div>
+                          </div>
+                        )}
+                      </SpCard>
+                    )}
+
+                    {/* FOOTER */}
+                    {adminTab === "footer" && (
+                      <SpCard title="Footer Text" defaultOpen>
+                        <div className="sp-field"><label>Footer tagline (after © Year · Mandir Emporium ·)</label><input value={adminDraft.footerText||""} onChange={e=>upd("footerText",e.target.value)} /></div>
+                      </SpCard>
+                    )}
+
+                    {/* HOMEPAGE */}
+                    {adminTab === "homepage" && <>
+                      <SpCard title="Hero Banner" defaultOpen>
+                        <div className="sp-field"><label>Main Tagline</label><input value={adminDraft.tagline||""} onChange={e=>upd("tagline",e.target.value)} /></div>
+                        <div className="sp-field"><label>Sub Tagline</label><input value={adminDraft.subTagline||""} onChange={e=>upd("subTagline",e.target.value)} /></div>
+                        <div className="sp-field"><label>Button Label</label><input value={adminDraft.heroBtnLabel||""} onChange={e=>upd("heroBtnLabel",e.target.value)} /></div>
+                        <SpImageUpload value={adminDraft.heroImage||""} onUrl={v=>upd("heroImage",v)} label="Hero Background Image" hint="Best: 1920×1080px or larger." />
+                      </SpCard>
+                    </>}
+
+                    {/* ABOUT PAGE */}
+                    {adminTab === "about" && <>
+                      <SpCard title="Hero Section" defaultOpen>
+                        <div className="sp-field"><label>Section Label</label><input value={adminDraft.aboutSubtitle||""} onChange={e=>upd("aboutSubtitle",e.target.value)} placeholder="Our Legacy" /></div>
+                        <div className="sp-field"><label>Main Title</label><input value={adminDraft.aboutTitle||""} onChange={e=>upd("aboutTitle",e.target.value)} /></div>
+                        <div className="sp-field"><label>Description</label><textarea value={adminDraft.aboutText||""} onChange={e=>upd("aboutText",e.target.value)} style={{height:100}} /></div>
+                        <SpImageUpload value={adminDraft.aboutImage||""} onUrl={v=>upd("aboutImage",v)} label="Main About Image" hint="Portrait orientation works best." />
+                      </SpCard>
+                      <SpCard title="Our Story Section">
+                        <div className="sp-field"><label>Story Title</label><input value={adminDraft.aboutStoryTitle||""} onChange={e=>upd("aboutStoryTitle",e.target.value)} /></div>
+                        <div className="sp-field"><label>Story Text</label><textarea value={adminDraft.aboutStoryText||""} onChange={e=>upd("aboutStoryText",e.target.value)} style={{height:140}} /></div>
+                        <SpImageUpload value={adminDraft.aboutStoryImage||""} onUrl={v=>upd("aboutStoryImage",v)} label="Story Image" hint="Landscape orientation." />
+                      </SpCard>
+                      <SpCard title="Mission & Vision">
+                        <div className="sp-field"><label>Our Mission</label><textarea value={adminDraft.aboutMission||""} onChange={e=>upd("aboutMission",e.target.value)} style={{height:80}} /></div>
+                        <div className="sp-field"><label>Our Vision</label><textarea value={adminDraft.aboutVision||""} onChange={e=>upd("aboutVision",e.target.value)} style={{height:80}} /></div>
+                      </SpCard>
+                      <SpCard title="Photo Gallery">
+                        <div className="sp-field-hint" style={{marginBottom:"0.75rem"}}>Add images to your About page gallery.</div>
+                        {(adminDraft.aboutGallery||[]).map((img, i) => (
+                          <div key={i} style={{marginBottom:"0.75rem",padding:"0.75rem",background:"#f9f9f9",borderRadius:"8px",border:"1px solid #e1e3e5"}}>
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"0.5rem"}}>
+                              <span style={{fontSize:"0.7rem",fontWeight:600,color:"#202223"}}>Image {i+1}</span>
+                              <button className="sp-img-action-btn" onClick={() => removeGalleryImg(i)} style={{background:"#fee2e2",borderColor:"#fca5a5",color:"#dc2626"}}><TrashIcon /></button>
+                            </div>
+                            <SpImageUpload value={img} onUrl={v=>updGalleryImg(i,v)} hint="Square or landscape image." />
+                          </div>
+                        ))}
+                        <button className="sp-add-btn" onClick={addGalleryImg}><PlusIcon /> Add Gallery Image</button>
+                      </SpCard>
+                    </>}
+
+                    {/* COLLECTIONS */}
+                    {adminTab === "collections" && <>
+                      <div className="sp-field-hint" style={{padding:"0 0 0.5rem",color:"#6d7175",fontSize:"0.68rem"}}>Edit your product cards. Each card appears on the Collections page.</div>
+                      {(adminDraft.products||[]).map((p,i) => (
+                        <SpCard key={p.id} title={p.name||"Product " + (i+1)} subtitle={p.subtitle}>
+                          <div className="sp-field"><label>Product Name</label><input value={p.name} onChange={e=>updProduct(i,"name",e.target.value)} /></div>
+                          <div className="sp-field"><label>Subtitle</label><input value={p.subtitle} onChange={e=>updProduct(i,"subtitle",e.target.value)} /></div>
+                          <div className="sp-field"><label>Badge Tag (e.g. Best Seller)</label><input value={p.tag||""} onChange={e=>updProduct(i,"tag",e.target.value)} /></div>
+                          <div className="sp-field"><label>Description</label><textarea value={p.desc} onChange={e=>updProduct(i,"desc",e.target.value)} /></div>
+                          <SpImageUpload value={p.image} onUrl={v=>updProduct(i,"image",v)} label="Product Image" hint="Landscape, min 800×600px." />
+                          <button className="sp-delete-btn" onClick={() => deleteProduct(i)}><TrashIcon /> Delete This Product</button>
+                        </SpCard>
+                      ))}
+                      <button className="sp-add-btn" onClick={addProduct}><PlusIcon /> Add New Product</button>
+                    </>}
+
+                    {/* PROJECTS */}
+                    {adminTab === "projects" && <>
+                      <SpCard title="Section Heading" defaultOpen>
+                        <div className="sp-field"><label>Section Title</label><input value={adminDraft.projectsTitle||""} onChange={e=>upd("projectsTitle",e.target.value)} /></div>
+                        <div className="sp-field"><label>Section Subtitle</label><input value={adminDraft.projectsSubtitle||""} onChange={e=>upd("projectsSubtitle",e.target.value)} /></div>
+                      </SpCard>
+                      {(adminDraft.projects||[]).map((p,i) => (
+                        <SpCard key={p.id} title={p.title||"Project " + (i+1)} subtitle={(p.location||"") + (p.year ? " · " + p.year : "")}>
+                          <div className="sp-field"><label>Project Title</label><input value={p.title} onChange={e=>updProject(i,"title",e.target.value)} /></div>
+                          <div className="sp-field"><label>Category / Material</label><input value={p.category||""} onChange={e=>updProject(i,"category",e.target.value)} /></div>
+                          <div className="sp-field"><label>Location</label><input value={p.location||""} onChange={e=>updProject(i,"location",e.target.value)} placeholder="e.g. Delhi" /></div>
+                          <div className="sp-field"><label>Year</label><input value={p.year||""} onChange={e=>updProject(i,"year",e.target.value)} placeholder="e.g. 2023" /></div>
+                          <div className="sp-field"><label>Description</label><textarea value={p.description||""} onChange={e=>updProject(i,"description",e.target.value)} style={{height:110}} placeholder="Describe this project in detail..." /></div>
+                          <div className="sp-field">
+                            <label>Project Images (first image = cover)</label>
+                            {(p.images||[]).length > 0 && (
+                              <div className="sp-img-grid" style={{marginBottom:"0.5rem"}}>
+                                {(p.images||[]).map((img, ii) => (
+                                  <div key={ii} className="sp-img-grid-item">
+                                    <img src={img} alt={"img " + ii} />
+                                    <button className="sp-img-grid-remove" onClick={() => { const imgs = [...(p.images||[])]; imgs.splice(ii,1); updProjectImages(i,imgs); }}>×</button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            <div style={{marginBottom:"0.5rem"}}>
+                              <SpImageUpload value="" onUrl={v => { if(v) updProjectImages(i, [...(p.images||[]), v]); }} label="Add Image" hint="Add multiple images. First = cover photo." />
+                            </div>
+                          </div>
+                          <button className="sp-delete-btn" onClick={() => deleteProject(i)}><TrashIcon /> Delete This Project</button>
+                        </SpCard>
+                      ))}
+                      <button className="sp-add-btn" onClick={addProject}><PlusIcon /> Add New Project</button>
+                    </>}
+
+                    {/* POOJA ROOMS */}
+                    {adminTab === "pooja" && <>
+                      <SpCard title="Section Content" defaultOpen>
+                        <div className="sp-field"><label>Title</label><input value={adminDraft.poojaTitle||""} onChange={e=>upd("poojaTitle",e.target.value)} /></div>
+                        <div className="sp-field"><label>Subtitle</label><input value={adminDraft.poojaSubtitle||""} onChange={e=>upd("poojaSubtitle",e.target.value)} /></div>
+                        <div className="sp-field"><label>Description</label><textarea value={adminDraft.poojaText||""} onChange={e=>upd("poojaText",e.target.value)} style={{height:90}} /></div>
+                      </SpCard>
+                      <SpCard title="Feature Points">
+                        {(adminDraft.poojaFeatures||[]).map((f,i) => (
+                          <div key={i} style={{display:"flex",gap:"0.5rem",alignItems:"center",marginBottom:"0.5rem"}}>
+                            <input value={f} onChange={e=>updPoojaFeature(i,e.target.value)} style={{flex:1,border:"1px solid #c9cccf",borderRadius:6,padding:"0.45rem 0.7rem",fontSize:"0.78rem",outline:"none"}} />
+                            <button style={{background:"#fee2e2",border:"none",borderRadius:4,padding:"0.35rem 0.5rem",cursor:"pointer",color:"#dc2626"}} onClick={()=>deletePoojaFeature(i)}><TrashIcon /></button>
+                          </div>
+                        ))}
+                        <button className="sp-add-btn" onClick={addPoojaFeature}><PlusIcon /> Add Feature</button>
+                      </SpCard>
+                      <SpCard title="Section Image">
+                        <SpImageUpload value={adminDraft.poojaImage||""} onUrl={v=>upd("poojaImage",v)} label="Pooja Room Image" hint="Left panel background image." />
+                      </SpCard>
+                    </>}
+
+                    {/* CONTACT */}
+                    {adminTab === "contact" && <>
+                      <SpCard title="Contact Details" defaultOpen>
+                        <div className="sp-field"><label>Phone</label><input value={adminDraft.phone||""} onChange={e=>upd("phone",e.target.value)} /></div>
+                        <div className="sp-field"><label>WhatsApp (no +, with country code)</label><input value={adminDraft.whatsapp||""} onChange={e=>upd("whatsapp",e.target.value)} /></div>
+                        <div className="sp-field"><label>Email</label><input value={adminDraft.email||""} onChange={e=>upd("email",e.target.value)} /></div>
+                        <div className="sp-field"><label>Address</label><textarea value={adminDraft.address||""} onChange={e=>upd("address",e.target.value)} style={{height:65}} /></div>
+                      </SpCard>
+                      <SpCard title="Social Media Links">
+                        <div className="sp-field"><label>Instagram URL</label><input value={adminDraft.instagram||""} onChange={e=>upd("instagram",e.target.value)} /></div>
+                        <div className="sp-field"><label>Facebook URL</label><input value={adminDraft.facebook||""} onChange={e=>upd("facebook",e.target.value)} /></div>
+                        <div className="sp-field"><label>YouTube URL</label><input value={adminDraft.youtube||""} onChange={e=>upd("youtube",e.target.value)} /></div>
+                        <div className="sp-field"><label>Pinterest URL</label><input value={adminDraft.pinterest||""} onChange={e=>upd("pinterest",e.target.value)} /></div>
+                      </SpCard>
+                    </>}
+
+                    {/* WHY CHOOSE US */}
+                    {adminTab === "why" && <>
+                      <SpCard title="Section Title" defaultOpen>
+                        <div className="sp-field"><label>Title</label><input value={adminDraft.whyTitle||""} onChange={e=>upd("whyTitle",e.target.value)} /></div>
+                      </SpCard>
+                      {(adminDraft.whyPoints||[]).map((w,i) => (
+                        <SpCard key={i} title={w.title||"Point " + (i+1)}>
+                          <div className="sp-field"><label>Title</label><input value={w.title} onChange={e=>updWhyPoint(i,"title",e.target.value)} /></div>
+                          <div className="sp-field"><label>Description</label><textarea value={w.desc} onChange={e=>updWhyPoint(i,"desc",e.target.value)} style={{height:65}} /></div>
+                          <button className="sp-delete-btn" onClick={()=>deleteWhyPoint(i)}><TrashIcon /> Delete</button>
+                        </SpCard>
+                      ))}
+                      <button className="sp-add-btn" onClick={addWhyPoint}><PlusIcon /> Add Point</button>
+                    </>}
+
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="admin-dismiss" onClick={() => { setAdminOpen(false); setAdminTab(null); }} />
+        </div>
+      )}
+
+      {toast && <div className="save-toast">Changes saved successfully</div>}
+    </>
+  );
+}
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
